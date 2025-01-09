@@ -6,12 +6,23 @@ const socketIo = require('socket.io')
 const app = express()
 const server = http.createServer(app)
 const io = socketIo(server)
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
+const dotenv = require('dotenv');
 const Bio = require('./bio')
 const fs = require('fs')
 
-let biometric = new Bio('192.168.68.153', 4370, 10000, 4000, io) //earthhouse
+// load .env files
+/**
+ * Note: 
+ * hindi ko na ininstall if ever you want to implement na lang dotenv for security purposes lang to missyou bro
+ * 
+ * npm i dotenv
+ * 
+ */
+dotenv.config();
+
+let biometric = new Bio(process.env.ENV_NAME, 4370, 10000, 4000, io) //earthhouse
 let logsFileName = 'testLogs.json'
 let usersFileName = 'testUsers.json'
 let fingerprintsFileName = 'testFingerprints.json'
@@ -31,19 +42,19 @@ app.post('/api/changeIP', async (req, res) => {
     io.emit('status-update', { status: "Setting ip..." })
     switch (company) {
         case "earthhouse": 
-            biometric = new Bio('192.168.68.128', 4370, 10000, 4000, io) 
+            biometric = new Bio(process.env.EARTHHOUSE_IP, 4370, 10000, 4000, io) 
             logsFileName = 'testLogs.json'
             usersFileName = 'testUsers.json'
             fingerprintsFileName = 'testFingerprints.json'
             break;
         case "phihope":
-            biometric = new Bio('192.168.68.115', 4370, 10000, 4000, io)
+            biometric = new Bio(process.env.PHIHOPE_IP, 4370, 10000, 4000, io)
             logsFileName = 'phihopeLogs.json'
             usersFileName = 'phihopeUsers.json'
             fingerprintsFileName = 'phihopeFingerprints.json'
             break;
         case "wetalk":
-            biometric = new Bio('192.168.68.104', 4370, 10000, 4000, io)
+            biometric = new Bio(process.env.WETALK_IP, 4370, 10000, 4000, io)
             logsFileName = 'wetalkLogs.json'
             usersFileName = 'wetalkUsers.json'
             fingerprintsFileName = 'wetalkFingerprints.json'
