@@ -15,6 +15,9 @@ const fs = require('fs')
 // load .env files
 /**
  * Note: 
+ * 
+ * bro reused ko tong script mo sa project ko ah
+ * 
  * hindi ko na ininstall if ever you want to implement na lang dotenv for security purposes lang to missyou bro
  * 
  * npm i dotenv
